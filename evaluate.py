@@ -27,7 +27,7 @@ model = load_model(args.model, custom_objects=custom_objects, compile=False)
 print('Loading test data...', end='')
 import numpy as np
 from data import extract_zip
-data = extract_zip('nyu_test.zip')
+data = extract_zip('/mnt/c/users/ozler/Downloads/nyu_test.zip')
 from io import BytesIO
 rgb = np.load(BytesIO(data['eigen_test_rgb.npy']))
 depth = np.load(BytesIO(data['eigen_test_depth.npy']))
@@ -37,7 +37,13 @@ print('Test data loaded.\n')
 start = time.time()
 print('Testing...')
 
-e = evaluate(model, rgb, depth, crop, batch_size=6)
+try:
+    e = evaluate(model, rgb, depth, crop, batch_size=6, verbose=True)
+
+except Exception as e:
+    print(e)
+    print('Error: could not evaluate model.')
+    exit()
 
 print("{:>10}, {:>10}, {:>10}, {:>10}, {:>10}, {:>10}".format('a1', 'a2', 'a3', 'rel', 'rms', 'log_10'))
 print("{:10.4f}, {:10.4f}, {:10.4f}, {:10.4f}, {:10.4f}, {:10.4f}".format(e[0],e[1],e[2],e[3],e[4],e[5]))

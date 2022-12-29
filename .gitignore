@@ -6,3 +6,8 @@
 *.jpg
 *.obj
 *.png
+virtual-env
+*.pyc
+*.webp
+*.gif
+*.jpeg
